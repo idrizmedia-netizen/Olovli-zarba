@@ -13,8 +13,7 @@ package.domain = org.olovli
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas
-
+source.include_exts = py,png,jpg,kv,atlas,mp3,wav,ttf
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
 
@@ -37,8 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # 1-O'ZGARISH: Python versiyasini 3.11 ga tushirdik (3.12 dagi xatolarni chetlab o'tish uchun)
-requirements = python3,kivy==2.3.0
-
+requirements = python3,kivy==2.3.0,pillow,hostpython3
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
