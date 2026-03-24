@@ -1,3 +1,5 @@
+import kivy
+kivy.require('2.3.0')
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
@@ -20,7 +22,6 @@ import os
 import sqlite3
 import time
 import kivy
-kivy.require('2.3.0')
 
 # --- BAZA TIZIMI ---
 def init_db():
