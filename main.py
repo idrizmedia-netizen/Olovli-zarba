@@ -19,6 +19,8 @@ import random
 import os
 import sqlite3
 import time
+import kivy
+kivy.require('2.3.0')
 
 # --- BAZA TIZIMI ---
 def init_db():
