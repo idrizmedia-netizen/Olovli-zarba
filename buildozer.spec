@@ -36,8 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # 1-O'ZGARISH: Python versiyasini 3.11 ga tushirdik (3.12 dagi xatolarni chetlab o'tish uchun)
-requirements = python3,kivy==2.3.0,pillow,hostpython3,requests,urllib3,charset-normalizer,idna
-
+requirements = python3,kivy==2.3.0,pillow,requests
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
 
