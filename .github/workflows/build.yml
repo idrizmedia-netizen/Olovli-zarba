@@ -12,18 +12,23 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Buildni tezlashtirish uchun keshni yoqamiz
+      - name: Cache Buildozer
+        uses: actions/cache@v3
+        with:
+          path: .buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            git zip unzip autoconf automake libtool pkg-config zlib1g-dev \
-            libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential
+          sudo apt update
+          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential
           pip install --upgrade pip setuptools wheel
           pip install Cython==0.29.33 buildozer
 
       - name: Build with Buildozer
         run: |
-          # Buildozer o'zi litsenziyalarni va kerakli NDK'ni tortadi
+          # SDK va NDK avtomatik o'rnatiladi
           yes | buildozer -v android release
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
