@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
@@ -14,15 +14,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y git zip unzip autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            git zip unzip autoconf automake libtool pkg-config zlib1g-dev \
+            libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential
           pip install --upgrade pip setuptools wheel
           pip install Cython==0.29.33 buildozer
 
       - name: Build with Buildozer
-        run: yes | buildozer -v android release
+        run: |
+          # Buildozer o'zi litsenziyalarni va kerakli NDK'ni tortadi
+          yes | buildozer -v android release
         env:
-          # Imzolash uchun parollar (boya yaratganimiz)
           P4A_RELEASE_KEYSTORE: mykey.keystore
           P4A_RELEASE_KEYSTORE_PASSWD: Izzatillo0201
           P4A_RELEASE_KEYALIAS: mykeyalias
@@ -31,5 +34,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: OlovliZarba-Release-APK
+          name: OlovliZarba-APK
           path: bin/*.apk
