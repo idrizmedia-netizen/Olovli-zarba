@@ -26,12 +26,15 @@ jobs:
           pip install Cython==0.29.33 buildozer
 
       - name: Build with Buildozer
-        run: |
-          # Eski build qoldiqlarini tozalab, keyin boshlaymiz
-          buildozer android clean
-          yes | buildozer -v android release
+        run: yes | buildozer -v android release
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
           P4A_RELEASE_KEYSTORE_PASSWD: Izzatillo0201
           P4A_RELEASE_KEYALIAS: mykeyalias
           P4A_RELEASE_KEYALIAS_PASSWD: Izzatillo0201
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: OlovliZarba-APK
+          path: bin/*.apk
