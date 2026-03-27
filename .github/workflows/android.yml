@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4  # v2 dan v4 ga o'zgardi
 
       - name: Install dependencies
         run: |
@@ -28,7 +28,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4  # v2 dan v4 ga o'zgardi
         with:
           name: OlovliZarba-Signed
           path: bin/*.apk
