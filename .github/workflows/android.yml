@@ -5,7 +5,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # v2 dan v4 ga o'zgardi
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -28,7 +29,8 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4  # v2 dan v4 ga o'zgardi
+        uses: actions/upload-artifact@v4
         with:
           name: OlovliZarba-Signed
           path: bin/*.apk
+          if-no-files-found: error # Agar APK fayli topilmasa xato beradi
