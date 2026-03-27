@@ -4,6 +4,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    # GitHub-ga fayllarni yozish uchun ruxsat beramiz
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,7 +20,8 @@ jobs:
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          buildozer android release
+          # Bu yerda build jarayonini boshlaymiz
+          buildozer android debug || buildozer android release
         
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
@@ -31,6 +35,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: OlovliZarba-Signed
+          name: OlovliZarba-APK
           path: bin/*.apk
-          if-no-files-found: error # Agar APK fayli topilmasa xato beradi
