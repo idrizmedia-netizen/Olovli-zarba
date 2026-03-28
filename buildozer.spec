@@ -33,15 +33,19 @@ fullscreen = 1
 # (list) Android arxitekturalari (zamonaviy telefonlar uchun)
 android.archs = arm64-v8a, armeabi-v7a
 
-# (int) Android API darajasi (Google Play talabi bo'yicha)
-android.api = 31
-android.build_tools_version = 31.0.0
+# (int) Android API darajasi
+android.api = 33
 
-# (int) Minimal Android API (Android 5.0+)
+# (str) Android build-tools versiyasi (API 33 uchun mos variant)
+android.build_tools_version = 33.0.2
+
+# (int) Minimal Android API
 android.minapi = 21
 
-# (int) Android NDK versiyasi
-android.ndk = 23b
+# (int) Android NDK versiyasi (Buildozer talab qilgan versiya)
+android.ndk = 25b
+
+# Litsenziyani avto-qabul qilish
 android.accept_sdk_license = True
 
 # (str) Android SDK yo'li (Buildozer o'zi yuklab oladi)
