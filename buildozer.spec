@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas,db,txt
 version = 1.0
 
 # (list) Kerakli kutubxonalar (Requirements)
-requirements = python3,kivy==2.3.0,sqlite3,hostpython3
+requirements = python3,kivy==2.3.0,hostpython3
 
 # (str) Asosiy logotip fayli
 icon.filename = icon.png
