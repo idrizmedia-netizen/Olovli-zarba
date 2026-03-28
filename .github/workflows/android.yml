@@ -4,36 +4,28 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    # GitHub-ga fayllarni yozish uchun ruxsat beramiz
-    permissions:
-      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev libssl-dev
           pip3 install --user --upgrade Cython==0.29.33 buildozer
 
       - name: Build with Buildozer
         run: |
-          export PATH=$PATH:$HOME/.local/bin
-          # Bu yerda build jarayonini boshlaymiz
-          buildozer android debug || buildozer android release
-        
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: bin
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          # Bu yerda buildozer buyrug'i o'yinni yig'adi
+          buildozer android debug
+        env:
+          # Secret-larni build jarayoniga ulash
+          P4A_RELEASE_KEYSTORE: mykey.keystore
+          P4A_RELEASE_KEYALIAS: ${{ secrets.ALIAS }}
+          P4A_RELEASE_KEYSTORE_PASSWD: ${{ secrets.KEY_STORE_PASSWORD }}
+          P4A_RELEASE_KEY_PASSWD: ${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload APK
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OlovliZarba-APK
+          name: Olovli-Zarba-APK
           path: bin/*.apk
