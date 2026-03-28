@@ -27,16 +27,21 @@ jobs:
 
       - name: Build with Buildozer
         run: |
-          # Keystore faylini tiklash
+          # 1. Keystore faylini tiklash
           echo "${{ secrets.SIGNING_KEY }}" | base64 -d > mykey.keystore
           
-          # SDKmanager uchun yo'lni qo'lda ko'rsatish
+          # 2. SDKmanager yo'lini aniq ko'rsatish
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
           
-          # Litsenziyalarni qabul qilish
+          # 3. MUHIM: Barcha litsenziyalarni bir yo'la qabul qilish
+          # 'yes' buyrug'i barcha savollarga avtomatik 'y' deb javob beradi
+          mkdir -p ~/.android && touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
           
-          # BU YERDA: clean buyrug'ini olib tashladik, chunki u xato beryapti
+          # 4. Aidl va kerakli build-toolsni majburan o'rnatish
+          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;31.0.0" "platforms;android-31"
+          
+          # 5. Buildozer build (Log level 2 bilan xatolarni ko'rish uchun)
           buildozer android debug
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
