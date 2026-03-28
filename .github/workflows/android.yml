@@ -19,30 +19,23 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install system dependencies
+      - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev libssl-dev
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev libssl-dev libgdbm-dev libnss3-dev libsqlite3-dev libreadline-dev libbz2-dev
           pip3 install --user --upgrade Cython==0.29.33 buildozer
-
-      - name: Setup Android SDK and Accept Licenses
-        run: |
-          # SDKmanager va Aidl uchun yo'llarni aniqlash
-          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-          
-          # Litsenziyalarni qabul qilish
-          yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
-          
-          # Aidl va kerakli build-toolsni majburan o'rnatish (Aidl muammosini hal qiladi)
-          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;34.0.0" "platforms;android-34"
-        shell: bash
 
       - name: Build with Buildozer
         run: |
-          # Keystore faylini SIGNING_KEY secret'idan qayta tiklash
+          # 1. Litsenziyalarni majburan qabul qilish
+          yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
+          
+          # 2. Keystore faylini tiklash
           echo "${{ secrets.SIGNING_KEY }}" | base64 -d > mykey.keystore
           
-          # APK yig'ish (Signing parametrlari bilan)
+          # 3. Buildozer Build (Toza build qilish uchun)
+          # Agar avvalgi builddan qolgan xatolar bo'lsa, ularni tozalaydi
+          buildozer android clean
           buildozer android debug
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
