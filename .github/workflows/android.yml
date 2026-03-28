@@ -39,7 +39,7 @@ jobs:
           yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
           
           # 4. Aidl va kerakli build-toolsni majburan o'rnatish
-          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;31.0.0" "platforms;android-31"
+          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;33.0.2" "platforms;android-33"
           
           # 5. Buildozer build (Log level 2 bilan xatolarni ko'rish uchun)
           buildozer android debug
