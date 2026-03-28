@@ -27,17 +27,20 @@ jobs:
 
       - name: Accept Android SDK Licenses
         run: |
-          # Bu buyruq barcha litsenziyalarni avtomatik "y" deb qabul qiladi
-          mkdir -p $ANDROID_HOME/licenses
-          yes | sdkmanager --licenses || true
-          sdkmanager "platform-tools" "build-tools;34.0.0" "platforms;android-34"
+          # SDKmanager yo'lini aniqlash va litsenziyalarni qabul qilish
+          export ANDROID_SDK_ROOT=$ANDROID_HOME
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/tools/bin
+          
+          # Litsenziyalarni qabul qilishning eng ishonchli yo'li
+          yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
+          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;34.0.0" "platforms;android-34"
         shell: bash
 
       - name: Build with Buildozer
         run: |
           # Keystore faylini tiklash
           echo "${{ secrets.SIGNING_KEY }}" | base64 -d > mykey.keystore
-          # APK yig'ishni boshlash
+          # APK yig'ish
           buildozer android debug
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
