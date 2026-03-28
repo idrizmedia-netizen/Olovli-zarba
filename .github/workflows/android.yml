@@ -30,18 +30,20 @@ jobs:
           # 1. Keystore faylini tiklash
           echo "${{ secrets.SIGNING_KEY }}" | base64 -d > mykey.keystore
           
-          # 2. SDKmanager yo'lini aniq ko'rsatish
+          # 2. SDK va Build-tools yo'llarini ko'rsatish
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
           
-          # 3. MUHIM: Barcha litsenziyalarni bir yo'la qabul qilish
-          # 'yes' buyrug'i barcha savollarga avtomatik 'y' deb javob beradi
+          # 3. AVTO-JAVOB (Litsenziyalar uchun) - Buni olib tashlamaymiz!
           mkdir -p ~/.android && touch ~/.android/repositories.cfg
           yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME || true
           
-          # 4. Aidl va kerakli build-toolsni majburan o'rnatish
+          # 4. Build-tools 33 ni majburan o'rnatish
           sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "build-tools;33.0.2" "platforms;android-33"
           
-          # 5. Buildozer build (Log level 2 bilan xatolarni ko'rish uchun)
+          # 5. TOZA BUILD (Eski xatolarni o'chirish uchun)
+          rm -rf .buildozer/
+          
+          # 6. Buildni boshlash
           buildozer android debug
         env:
           P4A_RELEASE_KEYSTORE: mykey.keystore
