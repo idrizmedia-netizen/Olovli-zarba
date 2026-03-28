@@ -18,8 +18,8 @@ source.include_exts = py,png,jpg,kv,atlas,db,txt
 # (str) Ilova versiyasi
 version = 1.0
 
-# (list) Kerakli kutubxonalar (Requirements)
-requirements = python3,kivy==2.3.0,hostpython3
+# (list) Application requirements
+requirements = python3,kivy==2.3.0,hostpython3,requests,chardet,idna,urllib3
 
 # (str) Asosiy logotip fayli
 icon.filename = icon.png
